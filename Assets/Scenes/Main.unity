@@ -889,15 +889,14 @@ MonoBehaviour:
   textBoxGameObject: {fileID: 1688741919}
   qteTextGameObject: {fileID: 929914415}
   qteChance: 0.25
-  qteWindow: 2
-  normalMoveAmount: 5
-  doubleMoveAmount: 10
+  qteWindow: 3
+  normalMoveAmount: 4
+  doubleMoveAmount: 7
   stopMinDelay: 10
   stopMaxDelay: 10
   stopCheckDuration: 2
   stopDialogue: STOP
   moveThreshold: 0.1
-  GameOver: 0
 --- !u!4 &1362032835
 Transform:
   m_ObjectHideFlags: 0
