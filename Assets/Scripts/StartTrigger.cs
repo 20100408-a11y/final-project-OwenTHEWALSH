@@ -21,9 +21,9 @@ public class StartTrigger : MonoBehaviour
     [SerializeField]
     private string introductionDialogue = "";
 
-    [Tooltip("Climb script reference for QTE activation.")]
+    [Tooltip("GameLoop script reference for climb sequence activation.")]
     [SerializeField]
-    private GameObject climbGameObject;
+    private GameObject gameLoopGameObject;
 
     [Header("Timing Settings")]
     [Tooltip("Delay before intro text appears after HIM is shown (seconds).")]
@@ -47,7 +47,7 @@ public class StartTrigger : MonoBehaviour
     [SerializeField]
     private float introTextDisplayDuration = 3.0f;
 
-    private Climb climbScript;
+    private GameLoop gameLoopScript;
     private HIM himScript;
 
     private bool hasTriggered = false;
@@ -72,13 +72,13 @@ public class StartTrigger : MonoBehaviour
             textGameObject.SetActive(false);
         }
 
-        if (climbGameObject != null)
+        if (gameLoopGameObject != null)
         {
-            climbScript = climbGameObject.GetComponent<Climb>();
+            gameLoopScript = gameLoopGameObject.GetComponent<GameLoop>();
         }
         else
         {
-            climbScript = FindObjectOfType<Climb>();
+            gameLoopScript = FindObjectOfType<GameLoop>();
         }
     }
 
@@ -112,7 +112,7 @@ public class StartTrigger : MonoBehaviour
                 // Check if minimum duration met
                 if (triggerTimer >= minimumTriggerDuration)
                 {
-                    ActivateQTE();
+                    ActivateClimbSequence();
                 }
             }
         }
@@ -151,12 +151,6 @@ public class StartTrigger : MonoBehaviour
         else
         {
             Debug.LogWarning("StartTrigger: Text GameObject not assigned");
-        }
-
-        // Lock player movement
-        if (climbScript != null)
-        {
-            climbScript.LockPlayerMovement(true);
         }
     }
 
@@ -198,20 +192,20 @@ public class StartTrigger : MonoBehaviour
         textGameObject.SetActive(false);
     }
 
-    private void ActivateQTE()
+    private void ActivateClimbSequence()
     {
         hasTriggered = true;
-        Debug.Log("StartTrigger: Minimum duration reached! QTE starting...");
+        Debug.Log("StartTrigger: Minimum duration reached! Climb sequence starting...");
 
-        // Start QTE countdown timer
-        if (climbScript != null)
+        // Start climb sequence in GameLoop
+        if (gameLoopScript != null)
         {
-            climbScript.ActivateClimb(textGameObject, introductionDialogue, delayBeforeQTE);
-            Debug.Log("StartTrigger: QTE countdown started!");
+            gameLoopScript.ActivateClimbSequence(textGameObject, introductionDialogue, delayBeforeQTE);
+            Debug.Log("StartTrigger: GameLoop climb sequence activated!");
         }
         else
         {
-            Debug.LogWarning("StartTrigger: Climb script not assigned");
+            Debug.LogWarning("StartTrigger: GameLoop script not assigned");
         }
     }
 
@@ -229,11 +223,6 @@ public class StartTrigger : MonoBehaviour
         if (textGameObject != null)
         {
             textGameObject.SetActive(false);
-        }
-
-        if (climbScript != null)
-        {
-            climbScript.LockPlayerMovement(false);
         }
     }
 }
