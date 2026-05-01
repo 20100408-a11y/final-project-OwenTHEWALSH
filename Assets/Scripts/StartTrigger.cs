@@ -21,33 +21,24 @@ public class StartTrigger : MonoBehaviour
     [SerializeField]
     private string introductionDialogue = "";
 
-    [Tooltip("GameLoop script reference for climb sequence activation.")]
-    [SerializeField]
-    private GameObject gameLoopGameObject;
-
     [Header("Timing Settings")]
     [Tooltip("Delay before intro text appears after HIM is shown (seconds).")]
     [SerializeField]
     private float delayBeforeIntroText = 1.0f;
 
-    [Tooltip("Delay before QTE starts after intro text ends (seconds).")]
+    [Tooltip("Duration to display the intro text before it disappears (seconds).")]
     [SerializeField]
-    private float delayBeforeQTE = 2.0f;
-
-    [Tooltip("Minimum duration player must stay in trigger (seconds).")]
-    [SerializeField]
-    private float minimumTriggerDuration = 2.0f;
+    private float introTextDisplayDuration = 3.0f;
 
     [Header("Text Display Settings")]
     [Tooltip("Delay between each word appearing on screen (seconds).")]
     [SerializeField]
     private float wordDisplayDelay = 0.5f;
 
-    [Tooltip("Duration to display the intro text before it disappears (seconds).")]
+    [Tooltip("Minimum duration player must stay in trigger (seconds).")]
     [SerializeField]
-    private float introTextDisplayDuration = 3.0f;
+    private float minimumTriggerDuration = 2.0f;
 
-    private GameLoop gameLoopScript;
     private HIM himScript;
 
     private bool hasTriggered = false;
@@ -70,15 +61,6 @@ public class StartTrigger : MonoBehaviour
         if (textGameObject != null)
         {
             textGameObject.SetActive(false);
-        }
-
-        if (gameLoopGameObject != null)
-        {
-            gameLoopScript = gameLoopGameObject.GetComponent<GameLoop>();
-        }
-        else
-        {
-            gameLoopScript = FindObjectOfType<GameLoop>();
         }
     }
 
@@ -112,7 +94,7 @@ public class StartTrigger : MonoBehaviour
                 // Check if minimum duration met
                 if (triggerTimer >= minimumTriggerDuration)
                 {
-                    ActivateClimbSequence();
+                    hasTriggered = true;
                 }
             }
         }
@@ -190,23 +172,6 @@ public class StartTrigger : MonoBehaviour
 
         yield return new WaitForSeconds(introTextDisplayDuration);
         textGameObject.SetActive(false);
-    }
-
-    private void ActivateClimbSequence()
-    {
-        hasTriggered = true;
-        Debug.Log("StartTrigger: Minimum duration reached! Climb sequence starting...");
-
-        // Start climb sequence in GameLoop
-        if (gameLoopScript != null)
-        {
-            gameLoopScript.ActivateClimbSequence(textGameObject, introductionDialogue, delayBeforeQTE);
-            Debug.Log("StartTrigger: GameLoop climb sequence activated!");
-        }
-        else
-        {
-            Debug.LogWarning("StartTrigger: GameLoop script not assigned");
-        }
     }
 
     private void ResetTrigger()

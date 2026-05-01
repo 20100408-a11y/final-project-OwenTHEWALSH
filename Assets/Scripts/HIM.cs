@@ -61,6 +61,12 @@ public class HIM : MonoBehaviour
 
     public void ShowHIM(string dialogueText = "")
     {
+        // Ensure the GameObject is active before starting coroutines
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
+
         if (fadeCoroutine != null)
         {
             StopCoroutine(fadeCoroutine);
