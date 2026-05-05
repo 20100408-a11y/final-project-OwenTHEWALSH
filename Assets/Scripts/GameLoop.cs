@@ -9,6 +9,12 @@ public class GameLoop : MonoBehaviour
 
     public bool GameOver { get; private set; } = false;
 
+    private void Start()
+    {
+        // Reset QTE counter at start of game
+        QTETrigger.ResetFailedQTECount();
+    }
+
     public void TriggerGameOver(string reason)
     {
         if (GameOver)

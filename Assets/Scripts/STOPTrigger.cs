@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -30,13 +30,14 @@ public class STOPTrigger : MonoBehaviour
         if (triggerCollider != null)
             triggerCollider.isTrigger = true;
 
-        Debug.Log($"STOPTrigger {triggerNumber}: Ready");
+        Debug.Log($"<color=magenta>STOP TRIGGER {triggerNumber} READY</color>");
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !isActive)
         {
+            Debug.Log($"<color=magenta>>>> STOP TRIGGER {triggerNumber} ACTIVATED <<<</color>");
             ActivateSTOP();
         }
     }
@@ -52,7 +53,7 @@ public class STOPTrigger : MonoBehaviour
             float distance = Vector3.Distance(Camera.main.transform.position, lastPlayerPosition);
             if (distance > moveThreshold)
             {
-                Debug.Log($"STOPTrigger {triggerNumber}: Player moved during STOP. GAME OVER!");
+                Debug.Log($"<color=red>✗ STOP TRIGGER {triggerNumber}: Player moved during STOP - GAME OVER!</color>");
                 EndGame("Player moved during STOP");
                 return;
             }
@@ -85,7 +86,7 @@ public class STOPTrigger : MonoBehaviour
         if (himScript != null)
             himScript.ShowHIM(stopDialogue);
 
-        Debug.Log($"STOPTrigger {triggerNumber}: STOP! Don't move!");
+        Debug.Log($"<color=magenta>STOP TRIGGER {triggerNumber}: STOP! Don't move for {stopCheckDuration} seconds!</color>");
     }
 
     private void ExitSTOP()
@@ -98,7 +99,7 @@ public class STOPTrigger : MonoBehaviour
         if (himScript != null)
             himScript.HideTextBox();
 
-        Debug.Log($"STOPTrigger {triggerNumber}: STOP phase ended!");
+        Debug.Log($"<color=green>✓ STOP TRIGGER {triggerNumber}: STOP phase passed!</color>");
         gameObject.SetActive(false);
     }
 

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -7,15 +7,15 @@ public class QTETrigger : MonoBehaviour
 {
     [SerializeField] private int triggerNumber = 1;
     [SerializeField] private GameObject qteTextGameObject;
+    [SerializeField] private float qteWindow = 2f;
+    [SerializeField] private int maxFailedQTEs = 3;
 
-
+    private static int failedQTECount = 0;
     private HIM himScript;
     private GameObject qteText;
     private float qteTimeRemaining = 0f;
     private bool isActive = false;
     private Collider triggerCollider;
-    private float qteWindow = 2f; // Time window for QTE in seconds
-
 
     private void Start()
     {
@@ -29,13 +29,14 @@ public class QTETrigger : MonoBehaviour
         if (triggerCollider != null)
             triggerCollider.isTrigger = true;
 
-        Debug.Log($"QTETrigger {triggerNumber}: Ready");
+        Debug.Log($"<color=cyan>QTE TRIGGER {triggerNumber} READY</color>");
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !isActive)
         {
+            Debug.Log($"<color=yellow>>>> QTE TRIGGER {triggerNumber} ACTIVATED <<<</color>");
             ActivateQTE();
         }
     }
@@ -70,7 +71,7 @@ public class QTETrigger : MonoBehaviour
         if (himScript != null)
             himScript.ShowHIM("QTE!");
 
-        Debug.Log($"QTETrigger {triggerNumber}: QTE Active! Press E in {qteWindow} seconds!");
+        Debug.Log($"<color=yellow>QTE TRIGGER {triggerNumber}: QTE Active! Press E in {qteWindow} seconds!</color>");
     }
 
     private void QTESuccess()
@@ -83,7 +84,7 @@ public class QTETrigger : MonoBehaviour
         if (himScript != null)
             himScript.HideTextBox();
 
-        Debug.Log($"QTETrigger {triggerNumber}: QTE Success!");
+        Debug.Log($"<color=green>✓ QTE TRIGGER {triggerNumber}: QTE SUCCESS!</color>");
         gameObject.SetActive(false);
     }
 
@@ -94,8 +95,37 @@ public class QTETrigger : MonoBehaviour
         if (qteText != null)
             qteText.SetActive(false);
 
-        Debug.Log($"QTETrigger {triggerNumber}: QTE Failed - Time expired. GAME OVER!");
-        EndGame("QTE Failed - Time expired");
+        failedQTECount++;
+        Debug.Log($"<color=red>✗ QTE TRIGGER {triggerNumber}: QTE FAILED! ({failedQTECount}/{maxFailedQTEs})</color>");
+
+        if (failedQTECount >= maxFailedQTEs)
+        {
+            HIMAttackAndGameOver();
+        }
+        else
+        {
+            if (himScript != null)
+                himScript.HideTextBox();
+            gameObject.SetActive(false);
+        }
+    }
+
+    private void HIMAttackAndGameOver()
+    {
+        if (himScript != null)
+        {
+            himScript.ShowHIM("You Failed!");
+        }
+
+        Debug.Log($"<color=red>╔════════════════════════════════════╗</color>");
+        Debug.Log($"<color=red>║  HIM ATTACK! GAME OVER!            ║</color>");
+        Debug.Log($"<color=red>║  Failed QTE Triggers: {failedQTECount}            ║</color>");
+        Debug.Log($"<color=red>╚════════════════════════════════════╝</color>");
+        
+        // Reset counter for next game
+        failedQTECount = 0;
+        
+        EndGame("Failed 3 QTEs - HIM attacked!");
     }
 
     private void EndGame(string reason)
@@ -105,5 +135,16 @@ public class QTETrigger : MonoBehaviour
         {
             gameLoop.TriggerGameOver(reason);
         }
+    }
+
+    public static int GetFailedQTECount()
+    {
+        return failedQTECount;
+    }
+
+    public static void ResetFailedQTECount()
+    {
+        failedQTECount = 0;
+        Debug.Log($"<color=cyan>QTE Failed count reset to 0</color>");
     }
 }
