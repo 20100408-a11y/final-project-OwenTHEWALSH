@@ -5,15 +5,9 @@ using UnityEngine.SceneManagement;
 public class GameLoop : MonoBehaviour
 {
     [Header("Game Over Settings")]
-    [SerializeField] private string gameOverSceneName = "GameOver";
+    [SerializeField] private string gameOverSceneName = "Game Over";
 
     public bool GameOver { get; private set; } = false;
-
-    private void Start()
-    {
-        // Reset QTE counter at start of game
-        QTETrigger.ResetFailedQTECount();
-    }
 
     public void TriggerGameOver(string reason)
     {

@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9931342
 Transform:
   m_ObjectHideFlags: 0
@@ -291,11 +291,11 @@ GameObject:
   - component: {fileID: 48340077}
   m_Layer: 0
   m_Name: Stop Trigger (6)
-  m_TagString: Untagged
+  m_TagString: STOP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &48340076
 Transform:
   m_ObjectHideFlags: 0
@@ -328,7 +328,6 @@ MonoBehaviour:
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
-  stopDialogue: STOP
 --- !u!135 &48340078
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -363,11 +362,11 @@ GameObject:
   - component: {fileID: 166257925}
   m_Layer: 0
   m_Name: QTE Trigger (3)
-  m_TagString: Untagged
+  m_TagString: QTE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &166257924
 Transform:
   m_ObjectHideFlags: 0
@@ -398,6 +397,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerNumber: 1
   qteTextGameObject: {fileID: 929914415}
+  qteWindow: 2
+  maxFailedQTEs: 3
 --- !u!135 &166257926
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -471,7 +472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &227973713
 Transform:
   m_ObjectHideFlags: 0
@@ -554,7 +555,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &240843367
 Transform:
   m_ObjectHideFlags: 0
@@ -637,7 +638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &267336599
 Transform:
   m_ObjectHideFlags: 0
@@ -725,7 +726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &298859361
 Transform:
   m_ObjectHideFlags: 0
@@ -804,11 +805,11 @@ GameObject:
   - component: {fileID: 316129540}
   m_Layer: 0
   m_Name: Stop Trigger (3)
-  m_TagString: Untagged
+  m_TagString: STOP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &316129539
 Transform:
   m_ObjectHideFlags: 0
@@ -841,7 +842,6 @@ MonoBehaviour:
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
-  stopDialogue: STOP
 --- !u!135 &316129541
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -880,7 +880,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &432882583
 Transform:
   m_ObjectHideFlags: 0
@@ -959,11 +959,11 @@ GameObject:
   - component: {fileID: 474269546}
   m_Layer: 0
   m_Name: Stop Trigger (8)
-  m_TagString: Untagged
+  m_TagString: STOP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &474269545
 Transform:
   m_ObjectHideFlags: 0
@@ -996,7 +996,6 @@ MonoBehaviour:
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
-  stopDialogue: STOP
 --- !u!135 &474269547
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1031,11 +1030,11 @@ GameObject:
   - component: {fileID: 484115961}
   m_Layer: 0
   m_Name: Stop Trigger (2)
-  m_TagString: Untagged
+  m_TagString: STOP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &484115960
 Transform:
   m_ObjectHideFlags: 0
@@ -1068,7 +1067,6 @@ MonoBehaviour:
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
-  stopDialogue: STOP
 --- !u!135 &484115962
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1103,11 +1101,11 @@ GameObject:
   - component: {fileID: 505212913}
   m_Layer: 0
   m_Name: Stop Trigger (9)
-  m_TagString: Untagged
+  m_TagString: STOP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &505212912
 Transform:
   m_ObjectHideFlags: 0
@@ -1140,7 +1138,6 @@ MonoBehaviour:
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
-  stopDialogue: STOP
 --- !u!135 &505212914
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1257,7 +1254,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &538538629
 Transform:
   m_ObjectHideFlags: 0
@@ -1397,11 +1394,11 @@ GameObject:
   - component: {fileID: 568220808}
   m_Layer: 0
   m_Name: Stop Trigger (7)
-  m_TagString: Untagged
+  m_TagString: STOP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &568220807
 Transform:
   m_ObjectHideFlags: 0
@@ -1434,7 +1431,6 @@ MonoBehaviour:
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
-  stopDialogue: STOP
 --- !u!135 &568220809
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1469,11 +1465,11 @@ GameObject:
   - component: {fileID: 591358643}
   m_Layer: 0
   m_Name: QTE Trigger (5)
-  m_TagString: Untagged
+  m_TagString: QTE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &591358642
 Transform:
   m_ObjectHideFlags: 0
@@ -1504,6 +1500,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerNumber: 1
   qteTextGameObject: {fileID: 929914415}
+  qteWindow: 2
+  maxFailedQTEs: 3
 --- !u!135 &591358644
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1644,6 +1642,140 @@ Transform:
   - {fileID: 1180477455}
   m_Father: {fileID: 180981101}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &649711107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 649711110}
+  - component: {fileID: 649711109}
+  - component: {fileID: 649711108}
+  m_Layer: 5
+  m_Name: Highscore
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &649711108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649711107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &649711109
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649711107}
+  m_CullTransparentMesh: 1
+--- !u!224 &649711110
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649711107}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.69, y: 0.69, z: 0.69}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 837376258}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 109.59, y: -40.9}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &664954215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1657,11 +1789,11 @@ GameObject:
   - component: {fileID: 664954217}
   m_Layer: 0
   m_Name: QTE Trigger (6)
-  m_TagString: Untagged
+  m_TagString: QTE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &664954216
 Transform:
   m_ObjectHideFlags: 0
@@ -1692,6 +1824,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerNumber: 1
   qteTextGameObject: {fileID: 929914415}
+  qteWindow: 2
+  maxFailedQTEs: 3
 --- !u!135 &664954218
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1810,6 +1944,7 @@ RectTransform:
   - {fileID: 1688741920}
   - {fileID: 929914416}
   - {fileID: 1053935556}
+  - {fileID: 649711110}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1834,7 +1969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &846249697
 Transform:
   m_ObjectHideFlags: 0
@@ -1949,10 +2084,8 @@ MonoBehaviour:
   himGameObject: {fileID: 39472526}
   textGameObject: {fileID: 1688741919}
   introductionDialogue: ' Climb The Rope'
-  delayBeforeIntroText: 0
-  introTextDisplayDuration: 2
   wordDisplayDelay: 1
-  minimumTriggerDuration: 3
+  introTextDisplayDuration: 2
 --- !u!135 &872974772
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2031,7 +2164,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press E!
+  m_text: PRESS E!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2125,7 +2258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &933733864
 Transform:
   m_ObjectHideFlags: 0
@@ -2301,7 +2434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &977821111
 Transform:
   m_ObjectHideFlags: 0
@@ -2384,7 +2517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &996800725
 Transform:
   m_ObjectHideFlags: 0
@@ -2463,11 +2596,11 @@ GameObject:
   - component: {fileID: 1019359029}
   m_Layer: 0
   m_Name: Stop Trigger (1)
-  m_TagString: Untagged
+  m_TagString: STOP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1019359028
 Transform:
   m_ObjectHideFlags: 0
@@ -2500,7 +2633,6 @@ MonoBehaviour:
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
-  stopDialogue: STOP
 --- !u!135 &1019359030
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2535,11 +2667,11 @@ GameObject:
   - component: {fileID: 1037381638}
   m_Layer: 0
   m_Name: QTE Trigger (2)
-  m_TagString: Untagged
+  m_TagString: QTE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1037381637
 Transform:
   m_ObjectHideFlags: 0
@@ -2570,6 +2702,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerNumber: 1
   qteTextGameObject: {fileID: 929914415}
+  qteWindow: 2
+  maxFailedQTEs: 3
 --- !u!135 &1037381639
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2604,7 +2738,7 @@ GameObject:
   - component: {fileID: 1053935554}
   m_Layer: 5
   m_Name: STOP
-  m_TagString: Untagged
+  m_TagString: STOP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2629,7 +2763,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: STOP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2638,7 +2772,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190335
   m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2722,7 +2856,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23.19, y: -44.49}
+  m_AnchoredPosition: {x: 48.81, y: -1.2}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1094619087
@@ -2738,11 +2872,11 @@ GameObject:
   - component: {fileID: 1094619089}
   m_Layer: 0
   m_Name: Stop Trigger (4)
-  m_TagString: Untagged
+  m_TagString: STOP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1094619088
 Transform:
   m_ObjectHideFlags: 0
@@ -2775,7 +2909,6 @@ MonoBehaviour:
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
-  stopDialogue: STOP
 --- !u!135 &1094619090
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2810,11 +2943,11 @@ GameObject:
   - component: {fileID: 1180477456}
   m_Layer: 0
   m_Name: Stop Trigger (10)
-  m_TagString: Untagged
+  m_TagString: STOP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1180477455
 Transform:
   m_ObjectHideFlags: 0
@@ -2847,7 +2980,6 @@ MonoBehaviour:
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
-  stopDialogue: STOP
 --- !u!135 &1180477457
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2879,6 +3011,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1362032835}
   - component: {fileID: 1362032834}
+  - component: {fileID: 1362032836}
   m_Layer: 0
   m_Name: GameLoop
   m_TagString: Untagged
@@ -2914,6 +3047,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1362032836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362032833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c12a439848eec1479a56edb3ef41afb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highScoreText: {fileID: 649711108}
 --- !u!1 &1377695577
 GameObject:
   m_ObjectHideFlags: 0
@@ -2965,11 +3111,11 @@ GameObject:
   - component: {fileID: 1391820549}
   m_Layer: 0
   m_Name: QTE Trigger (4)
-  m_TagString: Untagged
+  m_TagString: QTE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1391820548
 Transform:
   m_ObjectHideFlags: 0
@@ -3000,6 +3146,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerNumber: 1
   qteTextGameObject: {fileID: 929914415}
+  qteWindow: 2
+  maxFailedQTEs: 3
 --- !u!135 &1391820550
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3038,7 +3186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1413648257
 Transform:
   m_ObjectHideFlags: 0
@@ -3298,7 +3446,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1647946774
 Transform:
   m_ObjectHideFlags: 0
@@ -3589,11 +3737,11 @@ GameObject:
   - component: {fileID: 1709682671}
   m_Layer: 0
   m_Name: QTE Trigger (1)
-  m_TagString: Untagged
+  m_TagString: QTE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1709682670
 Transform:
   m_ObjectHideFlags: 0
@@ -3624,6 +3772,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerNumber: 1
   qteTextGameObject: {fileID: 929914415}
+  qteWindow: 2
+  maxFailedQTEs: 3
 --- !u!135 &1709682672
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3662,7 +3812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1737851208
 Transform:
   m_ObjectHideFlags: 0
@@ -3745,7 +3895,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1748743465
 Transform:
   m_ObjectHideFlags: 0
@@ -3859,11 +4009,11 @@ GameObject:
   - component: {fileID: 1878427162}
   m_Layer: 0
   m_Name: QTE Trigger (7)
-  m_TagString: Untagged
+  m_TagString: QTE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1878427161
 Transform:
   m_ObjectHideFlags: 0
@@ -3894,6 +4044,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerNumber: 1
   qteTextGameObject: {fileID: 929914415}
+  qteWindow: 2
+  maxFailedQTEs: 3
 --- !u!135 &1878427163
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3980,16 +4132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 245cdf4be60a5c34fa87f26462990ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  himGameObject: {fileID: 39472526}
   textBoxGameObject: {fileID: 1688741919}
-  qteTextGameObject: {fileID: 929914415}
-  qteChance: 0.25
-  qteWindow: 5
-  normalMoveAmount: 5
-  doubleMoveAmount: 10
-  stopMinDelay: 2
-  stopMaxDelay: 5
-  stopCheckDuration: 2
   moveThreshold: 0.1
   GameOver: 0
 --- !u!1 &1969795877
@@ -4145,7 +4288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2050419697
 Transform:
   m_ObjectHideFlags: 0
@@ -4224,11 +4367,11 @@ GameObject:
   - component: {fileID: 2071685201}
   m_Layer: 0
   m_Name: Stop Trigger (5)
-  m_TagString: Untagged
+  m_TagString: STOP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2071685200
 Transform:
   m_ObjectHideFlags: 0
@@ -4261,7 +4404,6 @@ MonoBehaviour:
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
-  stopDialogue: STOP
 --- !u!135 &2071685202
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4300,7 +4442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2113460157
 Transform:
   m_ObjectHideFlags: 0

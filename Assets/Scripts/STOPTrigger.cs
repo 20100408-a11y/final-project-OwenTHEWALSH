@@ -9,35 +9,32 @@ public class STOPTrigger : MonoBehaviour
     [SerializeField] private GameObject stopTextBoxGameObject;
     [SerializeField] private float stopCheckDuration = 2f;
     [SerializeField] private float moveThreshold = 0.1f;
-    [SerializeField] private string stopDialogue = "STOP";
 
-    private HIM himScript;
     private GameObject stopTextBox;
     private Vector3 lastPlayerPosition;
     private float stopTimer = 0f;
     private bool isActive = false;
-    private Collider triggerCollider;
+    private bool hasBeenTriggered = false;
 
-    private void Start()
+    private void Awake()
     {
-        himScript = FindObjectOfType<HIM>();
         stopTextBox = stopTextBoxGameObject;
-        triggerCollider = GetComponent<Collider>();
+        Collider triggerCollider = GetComponent<Collider>();
+        if (triggerCollider != null)
+            triggerCollider.isTrigger = true;
 
         if (stopTextBox != null)
             stopTextBox.SetActive(false);
 
-        if (triggerCollider != null)
-            triggerCollider.isTrigger = true;
-
-        Debug.Log($"<color=magenta>STOP TRIGGER {triggerNumber} READY</color>");
+        Debug.Log($"[STOPTrigger {triggerNumber}] Ready.");
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !isActive)
+        if (!hasBeenTriggered && other.CompareTag("Player"))
         {
-            Debug.Log($"<color=magenta>>>> STOP TRIGGER {triggerNumber} ACTIVATED <<<</color>");
+            hasBeenTriggered = true;
+            Debug.Log($"[STOPTrigger {triggerNumber}] Player entered trigger.");
             ActivateSTOP();
         }
     }
@@ -47,23 +44,23 @@ public class STOPTrigger : MonoBehaviour
         if (!isActive)
             return;
 
-        // Check if player moved
+        stopTimer -= Time.deltaTime;
+
+        // Check for movement
         if (Camera.main != null)
         {
             float distance = Vector3.Distance(Camera.main.transform.position, lastPlayerPosition);
             if (distance > moveThreshold)
             {
-                Debug.Log($"<color=red>✗ STOP TRIGGER {triggerNumber}: Player moved during STOP - GAME OVER!</color>");
+                Debug.Log($"[STOPTrigger {triggerNumber}] Player moved during STOP! GAME OVER.");
                 EndGame("Player moved during STOP");
                 return;
             }
         }
 
-        stopTimer -= Time.deltaTime;
-
         if (stopTimer <= 0f)
         {
-            ExitSTOP();
+            EndSTOP();
         }
     }
 
@@ -73,42 +70,31 @@ public class STOPTrigger : MonoBehaviour
         stopTimer = stopCheckDuration;
         lastPlayerPosition = Camera.main != null ? Camera.main.transform.position : Vector3.zero;
 
-        // Show STOP text
         if (stopTextBox != null)
-        {
             stopTextBox.SetActive(true);
-            TextMeshProUGUI stopTextComponent = stopTextBox.GetComponent<TextMeshProUGUI>();
-            if (stopTextComponent != null)
-                stopTextComponent.text = stopDialogue;
-        }
 
-        // Show HIM
-        if (himScript != null)
-            himScript.ShowHIM(stopDialogue);
-
-        Debug.Log($"<color=magenta>STOP TRIGGER {triggerNumber}: STOP! Don't move for {stopCheckDuration} seconds!</color>");
+        Debug.Log($"[STOPTrigger {triggerNumber}] STOP active for {stopCheckDuration} seconds.");
     }
 
-    private void ExitSTOP()
+    private void EndSTOP()
     {
         isActive = false;
-
         if (stopTextBox != null)
             stopTextBox.SetActive(false);
 
-        if (himScript != null)
-            himScript.HideTextBox();
-
-        Debug.Log($"<color=green>✓ STOP TRIGGER {triggerNumber}: STOP phase passed!</color>");
-        gameObject.SetActive(false);
+        Debug.Log($"[STOPTrigger {triggerNumber}] STOP complete.");
+        Destroy(gameObject);
     }
 
     private void EndGame(string reason)
     {
+        if (stopTextBox != null)
+            stopTextBox.SetActive(false);
+
         GameLoop gameLoop = FindObjectOfType<GameLoop>();
         if (gameLoop != null)
-        {
             gameLoop.TriggerGameOver(reason);
-        }
+
+        Destroy(gameObject);
     }
 }
