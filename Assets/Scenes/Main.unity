@@ -295,7 +295,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &48340076
 Transform:
   m_ObjectHideFlags: 0
@@ -324,10 +324,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1713b5051f7a5b14f93058fa63044c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 6
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
+  targetCamera: {fileID: 963194227}
 --- !u!135 &48340078
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -366,7 +367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &166257924
 Transform:
   m_ObjectHideFlags: 0
@@ -395,10 +396,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91fb062fbb9bd66498bbbba81f6b1f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 3
   qteTextGameObject: {fileID: 929914415}
   qteWindow: 2
   maxFailedQTEs: 3
+  targetCamera: {fileID: 963194227}
 --- !u!135 &166257926
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -445,7 +447,7 @@ Transform:
   m_GameObject: {fileID: 180981100}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.276089, y: 238.15955, z: 23.463552}
+  m_LocalPosition: {x: 22.276089, y: 212.9, z: 23.463552}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -809,7 +811,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &316129539
 Transform:
   m_ObjectHideFlags: 0
@@ -838,10 +840,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1713b5051f7a5b14f93058fa63044c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 3
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
+  targetCamera: {fileID: 963194227}
 --- !u!135 &316129541
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -963,7 +966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &474269545
 Transform:
   m_ObjectHideFlags: 0
@@ -992,10 +995,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1713b5051f7a5b14f93058fa63044c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 8
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
+  targetCamera: {fileID: 963194227}
 --- !u!135 &474269547
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1034,7 +1038,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &484115960
 Transform:
   m_ObjectHideFlags: 0
@@ -1063,10 +1067,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1713b5051f7a5b14f93058fa63044c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 2
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
+  targetCamera: {fileID: 963194227}
 --- !u!135 &484115962
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1105,7 +1110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &505212912
 Transform:
   m_ObjectHideFlags: 0
@@ -1134,10 +1139,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1713b5051f7a5b14f93058fa63044c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 9
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
+  targetCamera: {fileID: 963194227}
 --- !u!135 &505212914
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1398,7 +1404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &568220807
 Transform:
   m_ObjectHideFlags: 0
@@ -1427,10 +1433,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1713b5051f7a5b14f93058fa63044c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 7
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
+  targetCamera: {fileID: 963194227}
 --- !u!135 &568220809
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1469,7 +1476,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &591358642
 Transform:
   m_ObjectHideFlags: 0
@@ -1498,10 +1505,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91fb062fbb9bd66498bbbba81f6b1f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 5
   qteTextGameObject: {fileID: 929914415}
   qteWindow: 2
   maxFailedQTEs: 3
+  targetCamera: {fileID: 963194227}
 --- !u!135 &591358644
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1793,7 +1801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &664954216
 Transform:
   m_ObjectHideFlags: 0
@@ -1822,10 +1830,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91fb062fbb9bd66498bbbba81f6b1f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 6
   qteTextGameObject: {fileID: 929914415}
   qteWindow: 2
   maxFailedQTEs: 3
+  targetCamera: {fileID: 963194227}
 --- !u!135 &664954218
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2062,7 +2071,7 @@ Transform:
   m_GameObject: {fileID: 872974767}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.1, y: -184.66, z: -21.7}
+  m_LocalPosition: {x: -19.1, y: -186.63, z: -21.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2410,11 +2419,10 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7244648, y: -0.027876286, z: -0.025567358, w: 0.6882732}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.03, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1484335336}
+  m_Children: []
   m_Father: {fileID: 1903231499}
   m_LocalEulerAnglesHint: {x: -92.939, y: 1.4839935, z: -5.8170166}
 --- !u!1 &977821110
@@ -2600,7 +2608,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1019359028
 Transform:
   m_ObjectHideFlags: 0
@@ -2610,7 +2618,7 @@ Transform:
   m_GameObject: {fileID: 1019359027}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5700006, y: -177.34, z: -1.08}
+  m_LocalPosition: {x: 1.5700006, y: -178.14, z: -1.08}
   m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2633,6 +2641,7 @@ MonoBehaviour:
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
+  targetCamera: {fileID: 963194227}
 --- !u!135 &1019359030
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2671,7 +2680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1037381637
 Transform:
   m_ObjectHideFlags: 0
@@ -2700,10 +2709,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91fb062fbb9bd66498bbbba81f6b1f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 2
   qteTextGameObject: {fileID: 929914415}
   qteWindow: 2
   maxFailedQTEs: 3
+  targetCamera: {fileID: 963194227}
 --- !u!135 &1037381639
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2763,7 +2773,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: STOP
+  m_text: Stop
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2876,7 +2886,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1094619088
 Transform:
   m_ObjectHideFlags: 0
@@ -2905,10 +2915,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1713b5051f7a5b14f93058fa63044c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 4
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
+  targetCamera: {fileID: 963194227}
 --- !u!135 &1094619090
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2947,7 +2958,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1180477455
 Transform:
   m_ObjectHideFlags: 0
@@ -2976,10 +2987,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1713b5051f7a5b14f93058fa63044c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 10
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
+  targetCamera: {fileID: 963194227}
 --- !u!135 &1180477457
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3085,7 +3097,7 @@ Transform:
   m_GameObject: {fileID: 1377695577}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.57, y: 0, z: -20.97}
+  m_LocalPosition: {x: -22.57, y: 0.58, z: -20.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3115,7 +3127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1391820548
 Transform:
   m_ObjectHideFlags: 0
@@ -3144,10 +3156,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91fb062fbb9bd66498bbbba81f6b1f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 4
   qteTextGameObject: {fileID: 929914415}
   qteWindow: 2
   maxFailedQTEs: 3
+  targetCamera: {fileID: 963194227}
 --- !u!135 &1391820550
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3277,12 +3290,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1484335335}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7244648, y: 0.027876288, z: 0.02556736, w: 0.6882732}
-  m_LocalPosition: {x: 0.1839105, y: 2.812664, z: 19.56824}
+  m_LocalRotation: {x: -0, y: 0.0000000036670829, z: -2.0008885e-10, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 963194228}
+  m_Father: {fileID: 1903231499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &1484335337
 Light:
@@ -3741,7 +3754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1709682670
 Transform:
   m_ObjectHideFlags: 0
@@ -3774,6 +3787,7 @@ MonoBehaviour:
   qteTextGameObject: {fileID: 929914415}
   qteWindow: 2
   maxFailedQTEs: 3
+  targetCamera: {fileID: 963194227}
 --- !u!135 &1709682672
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4013,7 +4027,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1878427161
 Transform:
   m_ObjectHideFlags: 0
@@ -4042,10 +4056,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91fb062fbb9bd66498bbbba81f6b1f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 7
   qteTextGameObject: {fileID: 929914415}
   qteWindow: 2
   maxFailedQTEs: 3
+  targetCamera: {fileID: 963194227}
 --- !u!135 &1878427163
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4078,6 +4093,8 @@ GameObject:
   - component: {fileID: 1903231499}
   - component: {fileID: 1903231500}
   - component: {fileID: 1903231501}
+  - component: {fileID: 1903231503}
+  - component: {fileID: 1903231502}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -4094,11 +4111,12 @@ Transform:
   m_GameObject: {fileID: 1903231498}
   serializedVersion: 2
   m_LocalRotation: {x: 0.09623456, y: 0.00031099873, z: 0.009487958, w: 0.9953134}
-  m_LocalPosition: {x: 1.57, y: 46.05, z: -0.22}
+  m_LocalPosition: {x: 1.25, y: 20, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 963194228}
+  - {fileID: 1484335336}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 11.044, y: 0.143, z: 1.106}
 --- !u!114 &1903231500
@@ -4114,8 +4132,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetCamera: {fileID: 963194227}
-  moveUpAmount: 5
-  moveDuration: 0.5
   cameraLight: {fileID: 1484335337}
   repelRadius: 10
   repelForce: 20
@@ -4135,6 +4151,54 @@ MonoBehaviour:
   textBoxGameObject: {fileID: 1688741919}
   moveThreshold: 0.1
   GameOver: 0
+--- !u!54 &1903231502
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903231498}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &1903231503
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903231498}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.1930143
+  m_Center: {x: -1.39156395e-11, y: -2.725264e-10, z: -0.055715922}
 --- !u!1 &1969795877
 GameObject:
   m_ObjectHideFlags: 0
@@ -4371,7 +4435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2071685200
 Transform:
   m_ObjectHideFlags: 0
@@ -4400,10 +4464,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1713b5051f7a5b14f93058fa63044c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerNumber: 1
+  triggerNumber: 5
   stopTextBoxGameObject: {fileID: 1053935553}
   stopCheckDuration: 2
   moveThreshold: 0.1
+  targetCamera: {fileID: 963194227}
 --- !u!135 &2071685202
 SphereCollider:
   m_ObjectHideFlags: 0

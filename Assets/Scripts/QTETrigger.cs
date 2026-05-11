@@ -10,37 +10,55 @@ public class QTETrigger : MonoBehaviour
     [SerializeField] private float qteWindow = 2f;
     [SerializeField] private int maxFailedQTEs = 3;
 
+    [Header("Detection")]
+    [SerializeField] private Camera targetCamera;
+
     private static int failedQTECount = 0;
     private GameObject qteText;
     private float qteTimeRemaining = 0f;
     private bool isActive = false;
     private bool hasBeenTriggered = false;
+    private Collider triggerCollider;
+    private bool playerInTrigger = false;
 
     private void Awake()
     {
         qteText = qteTextGameObject;
-        Collider triggerCollider = GetComponent<Collider>();
-        if (triggerCollider != null)
-            triggerCollider.isTrigger = true;
+        triggerCollider = GetComponent<Collider>();
 
         if (qteText != null)
             qteText.SetActive(false);
 
-        Debug.Log($"[QTETrigger {triggerNumber}] Ready.");
-    }
+        if (triggerCollider == null)
+            Debug.LogWarning($"[QTETrigger {triggerNumber}] No Collider on trigger object.");
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!hasBeenTriggered && other.CompareTag("Player"))
-        {
-            hasBeenTriggered = true;
-            Debug.Log($"[QTETrigger {triggerNumber}] Player entered trigger.");
-            ActivateQTE();
-        }
+        if (targetCamera == null)
+            targetCamera = Camera.main;
     }
 
     private void Update()
     {
+        // Detection like StartTrigger: check camera inside bounds
+        if (!hasBeenTriggered && triggerCollider != null && targetCamera != null)
+        {
+            bool currentlyIn = triggerCollider.bounds.Contains(targetCamera.transform.position);
+
+            if (currentlyIn)
+            {
+                if (!playerInTrigger)
+                {
+                    playerInTrigger = true;
+                    hasBeenTriggered = true;
+                    Debug.Log($"[QTETrigger {triggerNumber}] Camera entered trigger.");
+                    ActivateQTE();
+                }
+            }
+            else
+            {
+                playerInTrigger = false;
+            }
+        }
+
         if (!isActive)
             return;
 
@@ -76,7 +94,7 @@ public class QTETrigger : MonoBehaviour
             qteText.SetActive(false);
 
         Debug.Log($"[QTETrigger {triggerNumber}] QTE SUCCESS.");
-        Destroy(gameObject);
+        
     }
 
     private void QTETimeout()

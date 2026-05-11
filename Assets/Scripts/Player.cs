@@ -9,14 +9,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Camera targetCamera;
 
-    [Tooltip("How far to move the camera up (world units).")]
-    [SerializeField]
-    private float moveUpAmount = 5f;
-
-    [Tooltip("Time in seconds for the camera move.")]
-    [SerializeField]
-    private float moveDuration = 0.5f;
-
     [Header("Light Settings")]
     [Tooltip("Light that is a child of the camera. Moves with the camera.")]
     [SerializeField]
@@ -37,6 +29,8 @@ public class Player : MonoBehaviour
 
     // Prevent starting multiple concurrent moves       
     private Coroutine moveCoroutine;
+
+    private const float moveUpAmount = 10f; // Always move up by 10 units
 
     private void Start()
     {
@@ -63,42 +57,11 @@ public class Player : MonoBehaviour
             if (targetCamera == null)
                 return;
 
-            // Start a single move coroutine (cancels previous if running)
-            if (moveCoroutine != null)
-            {
-                StopCoroutine(moveCoroutine);
-            }
+            // Instantly move the camera up by 10 units
+            targetCamera.transform.position += Vector3.up * moveUpAmount;
 
-            moveCoroutine = StartCoroutine(MoveCameraUpRoutine(moveUpAmount, moveDuration));
             RepelObjects();
         }
-    }
-
-    private IEnumerator MoveCameraUpRoutine(float amount, float duration)
-    {
-        var camTransform = targetCamera.transform;
-        Vector3 start = camTransform.position;
-        Vector3 end = start + Vector3.up * amount;
-
-        if (duration <= 0f)
-        {
-            camTransform.position = end;
-            yield break;
-        }
-
-        float elapsed = 0f;
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / duration);
-            // Smooth step for nicer easing
-            t = Mathf.SmoothStep(0f, 1f, t);
-            camTransform.position = Vector3.Lerp(start, end, t);
-            yield return null;
-        }
-
-        camTransform.position = end;
-        moveCoroutine = null;
     }
 
     private void RepelObjects()

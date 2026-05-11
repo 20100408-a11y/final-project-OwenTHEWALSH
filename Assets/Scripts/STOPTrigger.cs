@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -10,50 +9,70 @@ public class STOPTrigger : MonoBehaviour
     [SerializeField] private float stopCheckDuration = 2f;
     [SerializeField] private float moveThreshold = 0.1f;
 
+    [Header("Detection")]
+    [SerializeField] private Camera targetCamera;
+
+    private static int failedSTOPCount = 0;
+    private const int maxFailedSTOPs = 3;
+
     private GameObject stopTextBox;
     private Vector3 lastPlayerPosition;
     private float stopTimer = 0f;
     private bool isActive = false;
     private bool hasBeenTriggered = false;
+    private Collider triggerCollider;
+    private bool playerInTrigger = false;
 
     private void Awake()
     {
         stopTextBox = stopTextBoxGameObject;
-        Collider triggerCollider = GetComponent<Collider>();
-        if (triggerCollider != null)
-            triggerCollider.isTrigger = true;
-
+        triggerCollider = GetComponent<Collider>();
         if (stopTextBox != null)
             stopTextBox.SetActive(false);
 
-        Debug.Log($"[STOPTrigger {triggerNumber}] Ready.");
-    }
+        if (triggerCollider == null)
+            Debug.LogWarning($"[STOPTrigger {triggerNumber}] No Collider on trigger object.");
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!hasBeenTriggered && other.CompareTag("Player"))
-        {
-            hasBeenTriggered = true;
-            Debug.Log($"[STOPTrigger {triggerNumber}] Player entered trigger.");
-            ActivateSTOP();
-        }
+        if (targetCamera == null)
+            targetCamera = Camera.main;
     }
 
     private void Update()
     {
+        // Detection like StartTrigger: check camera inside bounds
+        if (!hasBeenTriggered && triggerCollider != null && targetCamera != null)
+        {
+            bool currentlyIn = triggerCollider.bounds.Contains(targetCamera.transform.position);
+
+            if (currentlyIn)
+            {
+                if (!playerInTrigger)
+                {
+                    playerInTrigger = true;
+                    hasBeenTriggered = true;
+                    Debug.Log($"[STOPTrigger {triggerNumber}] Camera entered trigger.");
+                    ActivateSTOP();
+                }
+            }
+            else
+            {
+                playerInTrigger = false;
+            }
+        }
+
         if (!isActive)
             return;
 
         stopTimer -= Time.deltaTime;
 
         // Check for movement
-        if (Camera.main != null)
+        if (targetCamera != null)
         {
-            float distance = Vector3.Distance(Camera.main.transform.position, lastPlayerPosition);
+            float distance = Vector3.Distance(targetCamera.transform.position, lastPlayerPosition);
             if (distance > moveThreshold)
             {
-                Debug.Log($"[STOPTrigger {triggerNumber}] Player moved during STOP! GAME OVER.");
-                EndGame("Player moved during STOP");
+                Debug.Log($"[STOPTrigger {triggerNumber}] Player moved during STOP! STRIKE {failedSTOPCount + 1}/{maxFailedSTOPs}");
+                STOPStrike();
                 return;
             }
         }
@@ -68,12 +87,33 @@ public class STOPTrigger : MonoBehaviour
     {
         isActive = true;
         stopTimer = stopCheckDuration;
-        lastPlayerPosition = Camera.main != null ? Camera.main.transform.position : Vector3.zero;
+        lastPlayerPosition = targetCamera != null ? targetCamera.transform.position : Vector3.zero;
 
         if (stopTextBox != null)
             stopTextBox.SetActive(true);
 
         Debug.Log($"[STOPTrigger {triggerNumber}] STOP active for {stopCheckDuration} seconds.");
+    }
+
+    private void STOPStrike()
+    {
+        isActive = false;
+        failedSTOPCount++;
+
+        if (stopTextBox != null)
+            stopTextBox.SetActive(false);
+
+        if (failedSTOPCount >= maxFailedSTOPs)
+        {
+            Debug.Log($"[STOPTrigger] HIM ATTACK! GAME OVER! Failed STOPs: {failedSTOPCount}");
+            failedSTOPCount = 0;
+            EndGame("Failed 3 STOPs - HIM attacked!");
+        }
+        else
+        {
+            Debug.Log($"[STOPTrigger {triggerNumber}] STRIKE {failedSTOPCount}/{maxFailedSTOPs}. Trigger destroyed, game continues.");
+            Destroy(gameObject);
+        }
     }
 
     private void EndSTOP()
@@ -95,6 +135,13 @@ public class STOPTrigger : MonoBehaviour
         if (gameLoop != null)
             gameLoop.TriggerGameOver(reason);
 
-        Destroy(gameObject);
+
+    }
+
+    public static int GetFailedSTOPCount() => failedSTOPCount;
+    public static void ResetFailedSTOPCount()
+    {
+        failedSTOPCount = 0;
+        Debug.Log("[STOPTrigger] STOP Failed count reset to 0");
     }
 }
