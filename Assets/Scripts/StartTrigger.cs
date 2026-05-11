@@ -31,6 +31,7 @@ public class StartTrigger : MonoBehaviour
     private float introTextDisplayDuration = 3.0f;
 
     private HIM himScript;
+    private Player playerScript;
 
     private bool hasTriggered = false;
     private bool playerInTrigger = false;
@@ -52,6 +53,11 @@ public class StartTrigger : MonoBehaviour
         {
             textGameObject.SetActive(false);
         }
+
+        // Find the Player script
+        playerScript = FindObjectOfType<Player>();
+        if (playerScript == null)
+            Debug.LogWarning("[StartTrigger] No Player script found in scene.");
     }
 
     private void Update()
@@ -86,6 +92,15 @@ public class StartTrigger : MonoBehaviour
     {
         hasTriggered = true;
         Debug.Log("StartTrigger: Camera entered trigger zone!");
+
+        // Calculate total pause duration (text animation + display duration)
+        float totalPauseDuration = (introductionDialogue.Split(' ').Length * wordDisplayDelay) + introTextDisplayDuration;
+
+        // Pause player movement for the duration of the intro sequence
+        if (playerScript != null)
+        {
+            playerScript.PauseMovement(totalPauseDuration);
+        }
 
         // Activate HIM GameObject
         if (himGameObject != null)

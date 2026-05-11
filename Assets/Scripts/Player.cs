@@ -9,6 +9,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Camera targetCamera;
 
+    [Header("Smooth Movement")]
+    [Tooltip("Duration in seconds for smooth camera movement.")]
+    [SerializeField]
+    private float moveDuration = 0.3f;
+
+    [Tooltip("Easing curve for smooth movement (optional).")]
+    [SerializeField]
+    private AnimationCurve movementCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
     [Header("Light Settings")]
     [Tooltip("Light that is a child of the camera. Moves with the camera.")]
     [SerializeField]
@@ -27,10 +36,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     private string repelTag = "HIM";
 
+    // distance to move HIM away when player moves
+    private const float repelMoveDistance = 10f;
+
     // Prevent starting multiple concurrent moves       
     private Coroutine moveCoroutine;
 
     private const float moveUpAmount = 10f; // Always move up by 10 units
+
+    // Movement state tracking
+    private bool isMovementPaused = false;
 
     private void Start()
     {
@@ -52,16 +67,42 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        // Only process input if movement is not paused
+        if (Input.GetKeyDown(KeyCode.Space) && !isMovementPaused)
         {
             if (targetCamera == null)
                 return;
 
-            // Instantly move the camera up by 10 units
-            targetCamera.transform.position += Vector3.up * moveUpAmount;
+            // Stop any existing movement coroutine
+            if (moveCoroutine != null)
+                StopCoroutine(moveCoroutine);
 
-            RepelObjects();
+            // Start smooth camera movement
+            moveCoroutine = StartCoroutine(SmoothMove());
         }
+    }
+
+    private IEnumerator SmoothMove()
+    {
+        Vector3 startPosition = targetCamera.transform.position;
+        Vector3 targetPosition = startPosition + Vector3.up * moveUpAmount;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < moveDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = Mathf.Clamp01(elapsedTime / moveDuration);
+            float easedProgress = movementCurve.Evaluate(progress);
+
+            targetCamera.transform.position = Vector3.Lerp(startPosition, targetPosition, easedProgress);
+
+            yield return null;
+        }
+
+        // Ensure final position is exact
+        targetCamera.transform.position = targetPosition;
+
+        RepelObjects();
     }
 
     private void RepelObjects()
@@ -72,6 +113,15 @@ public class Player : MonoBehaviour
         {
             if (collider.CompareTag(repelTag))
             {
+                // Prefer calling HIM.MoveAwayFrom when available so HIM controls its own movement
+                HIM him = collider.GetComponent<HIM>();
+                if (him != null)
+                {
+                    him.MoveAwayFrom(transform.position, repelMoveDistance);
+                    continue;
+                }
+
+                // Fallback to previous rigidbody impulse behaviour if HIM component is not present
                 Rigidbody rb = collider.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
@@ -80,6 +130,52 @@ public class Player : MonoBehaviour
                     rb.AddForce(repelDirection * repelForce, ForceMode.Impulse);
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Temporarily pauses player movement (for STOP triggers, etc.)
+    /// </summary>
+    public void PauseMovement(float duration)
+    {
+        StartCoroutine(PauseMovementCoroutine(duration));
+    }
+
+    private IEnumerator PauseMovementCoroutine(float duration)
+    {
+        isMovementPaused = true;
+        
+        // Stop any ongoing movement
+        if (moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
+        }
+
+        yield return new WaitForSeconds(duration);
+        
+        isMovementPaused = false;
+    }
+
+    /// <summary>
+    /// Immediately resume player movement
+    /// </summary>
+    public void ResumeMovement()
+    {
+        isMovementPaused = false;
+    }
+
+    /// <summary>
+    /// Stop any current, in-progress movement immediately but do NOT disable future input.
+    /// Use this when the player hits a STOP trigger and you want the camera to halt
+    /// at its current position while still allowing the player to press Space again.
+    /// </summary>
+    public void StopCurrentMovementImmediate()
+    {
+        if (moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
         }
     }
 

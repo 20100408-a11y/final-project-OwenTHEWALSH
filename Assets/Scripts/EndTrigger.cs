@@ -16,6 +16,7 @@ public class EndTrigger : MonoBehaviour
     private bool playerInTrigger = false;
     private float triggerTimer = 0f;
     private bool hasTriggered = false;
+    private Player playerScript;
 
     private void Start()
     {
@@ -23,6 +24,11 @@ public class EndTrigger : MonoBehaviour
         {
             targetCamera = Camera.main;
         }
+
+        // Find the Player script
+        playerScript = FindObjectOfType<Player>();
+        if (playerScript == null)
+            Debug.LogWarning("[EndTrigger] No Player script found in scene.");
     }
 
     private void Update()
@@ -41,6 +47,12 @@ public class EndTrigger : MonoBehaviour
                 // Just entered trigger
                 playerInTrigger = true;
                 triggerTimer = 0f;
+
+                // Pause player movement immediately
+                if (playerScript != null)
+                {
+                    playerScript.PauseMovement(minimumTriggerDuration);
+                }
             }
             else if (!hasTriggered)
             {
@@ -60,6 +72,13 @@ public class EndTrigger : MonoBehaviour
             if (playerInTrigger && !hasTriggered)
             {
                 Debug.Log("EndTrigger: Player left trigger before minimum duration!");
+                
+                // Resume player movement if they left early
+                if (playerScript != null)
+                {
+                    playerScript.ResumeMovement();
+                }
+
                 ResetTrigger();
             }
             playerInTrigger = false;

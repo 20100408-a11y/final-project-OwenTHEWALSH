@@ -28,6 +28,11 @@ public class HIM : MonoBehaviour
     [SerializeField]
     private float wordDelay = 0.5f;
 
+    [Header("Movement Settings")]
+    [Tooltip("Default distance HIM moves away from the player when the player moves.")]
+    [SerializeField]
+    private float moveAwayDistance = 10f;
+
     private Coroutine fadeCoroutine;
     private Coroutine typingCoroutine;
     private bool isVisible = false;
@@ -147,9 +152,9 @@ public class HIM : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / fadeDuration);
             float newAlpha = Mathf.Lerp(startHIMColor.a, targetAlpha, t);
-            
+
             SetAlpha(himMaterial, newAlpha);
-            
+
             if (additionalMaterial != null)
             {
                 SetAlpha(additionalMaterial, newAlpha);
@@ -180,5 +185,23 @@ public class HIM : MonoBehaviour
     public bool IsVisible()
     {
         return isVisible;
+    }
+
+    // Implemented movement method (replaces NotImplementedException)
+    // Moves HIM immediately away from `origin` by `distance`. If `distance` <= 0, uses the inspector `moveAwayDistance`.
+    public void MoveAwayFrom(Vector3 origin, float distance = -1f)
+    {
+        if (distance <= 0f)
+            distance = moveAwayDistance;
+
+        Vector3 dir = transform.position - origin;
+        if (dir.sqrMagnitude < 0.0001f)
+        {
+            // If overlapping, pick an arbitrary safe direction
+            dir = Vector3.up;
+        }
+
+        dir.Normalize();
+        transform.position += dir * distance;
     }
 }

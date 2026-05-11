@@ -8,20 +8,21 @@ public class STOPTrigger : MonoBehaviour
     [SerializeField] private GameObject stopTextBoxGameObject;
     [SerializeField] private float stopCheckDuration = 2f;
     [SerializeField] private float moveThreshold = 0.1f;
+    [SerializeField] private float postTriggerCooldown = 2f;
 
     [Header("Detection")]
     [SerializeField] private Camera targetCamera;
 
-    private static int failedSTOPCount = 0;
-    private const int maxFailedSTOPs = 3;
-
     private GameObject stopTextBox;
     private Vector3 lastPlayerPosition;
     private float stopTimer = 0f;
+    private float cooldownTimer = 0f;
     private bool isActive = false;
+    private bool isOnCooldown = false;
     private bool hasBeenTriggered = false;
     private Collider triggerCollider;
     private bool playerInTrigger = false;
+    private Player playerScript;
 
     private void Awake()
     {
@@ -35,10 +36,27 @@ public class STOPTrigger : MonoBehaviour
 
         if (targetCamera == null)
             targetCamera = Camera.main;
+
+        // Find the Player script
+        playerScript = FindObjectOfType<Player>();
+        if (playerScript == null)
+            Debug.LogWarning($"[STOPTrigger {triggerNumber}] No Player script found in scene.");
     }
 
     private void Update()
     {
+        // Handle cooldown timer
+        if (isOnCooldown)
+        {
+            cooldownTimer -= Time.deltaTime;
+            if (cooldownTimer <= 0f)
+            {
+                isOnCooldown = false;
+                Destroy(gameObject); // Destroy trigger after cooldown to prevent reuse
+            }
+            return;
+        }
+
         // Detection like StartTrigger: check camera inside bounds
         if (!hasBeenTriggered && triggerCollider != null && targetCamera != null)
         {
@@ -71,7 +89,7 @@ public class STOPTrigger : MonoBehaviour
             float distance = Vector3.Distance(targetCamera.transform.position, lastPlayerPosition);
             if (distance > moveThreshold)
             {
-                Debug.Log($"[STOPTrigger {triggerNumber}] Player moved during STOP! STRIKE {failedSTOPCount + 1}/{maxFailedSTOPs}");
+                Debug.Log($"[STOPTrigger {triggerNumber}] Player moved during STOP! Adding strike.");
                 STOPStrike();
                 return;
             }
@@ -92,27 +110,40 @@ public class STOPTrigger : MonoBehaviour
         if (stopTextBox != null)
             stopTextBox.SetActive(true);
 
+        // Stop any in-progress movement immediately but do NOT disable future input.
+        if (playerScript != null)
+        {
+            playerScript.StopCurrentMovementImmediate();
+        }
+
         Debug.Log($"[STOPTrigger {triggerNumber}] STOP active for {stopCheckDuration} seconds.");
     }
 
     private void STOPStrike()
     {
         isActive = false;
-        failedSTOPCount++;
+
+        // Add a strike via StrikeManager
+        if (StrikeManager.Instance != null)
+        {
+            StrikeManager.Instance.AddStrike();
+            Debug.Log($"[STOPTrigger {triggerNumber}] STRIKE added ({StrikeManager.Instance.Strikes}/{StrikeManager.Instance.MaxStrikes})");
+        }
 
         if (stopTextBox != null)
             stopTextBox.SetActive(false);
 
-        if (failedSTOPCount >= maxFailedSTOPs)
+        // Resume player movement after strike (keeps backwards compatibility with PauseMovement usage elsewhere)
+        if (playerScript != null)
         {
-            Debug.Log($"[STOPTrigger] HIM ATTACK! GAME OVER! Failed STOPs: {failedSTOPCount}");
-            failedSTOPCount = 0;
-            EndGame("Failed 3 STOPs - HIM attacked!");
+            playerScript.ResumeMovement();
         }
-        else
+
+        // If strike manager handled game over, it already called GameLoop. Otherwise start cooldown.
+        if (StrikeManager.Instance == null || StrikeManager.Instance.Strikes < StrikeManager.Instance.MaxStrikes)
         {
-            Debug.Log($"[STOPTrigger {triggerNumber}] STRIKE {failedSTOPCount}/{maxFailedSTOPs}. Trigger destroyed, game continues.");
-            Destroy(gameObject);
+            Debug.Log($"[STOPTrigger {triggerNumber}] Starting {postTriggerCooldown}s cooldown.");
+            StartCooldown();
         }
     }
 
@@ -122,8 +153,20 @@ public class STOPTrigger : MonoBehaviour
         if (stopTextBox != null)
             stopTextBox.SetActive(false);
 
-        Debug.Log($"[STOPTrigger {triggerNumber}] STOP complete.");
-        Destroy(gameObject);
+        Debug.Log($"[STOPTrigger {triggerNumber}] STOP complete. Starting {postTriggerCooldown}s cooldown before player can pass.");
+        StartCooldown();
+    }
+
+    private void StartCooldown()
+    {
+        isOnCooldown = true;
+        cooldownTimer = postTriggerCooldown;
+    }
+
+    private void ResetTrigger()
+    {
+        hasBeenTriggered = false;
+        playerInTrigger = false;
     }
 
     private void EndGame(string reason)
@@ -134,14 +177,5 @@ public class STOPTrigger : MonoBehaviour
         GameLoop gameLoop = FindObjectOfType<GameLoop>();
         if (gameLoop != null)
             gameLoop.TriggerGameOver(reason);
-
-
-    }
-
-    public static int GetFailedSTOPCount() => failedSTOPCount;
-    public static void ResetFailedSTOPCount()
-    {
-        failedSTOPCount = 0;
-        Debug.Log("[STOPTrigger] STOP Failed count reset to 0");
     }
 }
