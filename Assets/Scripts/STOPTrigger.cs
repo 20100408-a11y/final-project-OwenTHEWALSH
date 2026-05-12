@@ -13,6 +13,14 @@ public class STOPTrigger : MonoBehaviour
     [Header("Detection")]
     [SerializeField] private Camera targetCamera;
 
+    [Header("Audio (optional)")]
+    [Tooltip("Sound played when STOP begins.")]
+    [SerializeField] private AudioClip stopStartClip;
+    [Tooltip("Sound played when player violates STOP (strike).")]
+    [SerializeField] private AudioClip stopViolationClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float sfxVolume = 1f;
+
     private GameObject stopTextBox;
     private Vector3 lastPlayerPosition;
     private float stopTimer = 0f;
@@ -83,6 +91,15 @@ public class STOPTrigger : MonoBehaviour
 
         stopTimer -= Time.deltaTime;
 
+        // New: if player presses Space while STOP is active, treat as a violation/strike
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log($"[STOPTrigger {triggerNumber}] Player pressed Space during STOP! Adding strike.");
+            PlaySfx(stopViolationClip);
+            STOPStrike();
+            return;
+        }
+
         // Check for movement
         if (targetCamera != null)
         {
@@ -90,6 +107,7 @@ public class STOPTrigger : MonoBehaviour
             if (distance > moveThreshold)
             {
                 Debug.Log($"[STOPTrigger {triggerNumber}] Player moved during STOP! Adding strike.");
+                PlaySfx(stopViolationClip);
                 STOPStrike();
                 return;
             }
@@ -110,11 +128,14 @@ public class STOPTrigger : MonoBehaviour
         if (stopTextBox != null)
             stopTextBox.SetActive(true);
 
-        // Stop any in-progress movement immediately but do NOT disable future input.
+        // Stop any in-progress movement immediately and pause player input & idle detection for duration.
         if (playerScript != null)
         {
             playerScript.StopCurrentMovementImmediate();
+            playerScript.PauseMovement(stopCheckDuration);
         }
+
+        PlaySfx(stopStartClip);
 
         Debug.Log($"[STOPTrigger {triggerNumber}] STOP active for {stopCheckDuration} seconds.");
     }
@@ -177,5 +198,13 @@ public class STOPTrigger : MonoBehaviour
         GameLoop gameLoop = FindObjectOfType<GameLoop>();
         if (gameLoop != null)
             gameLoop.TriggerGameOver(reason);
+    }
+
+    // Helper to play SFX at the camera (or this object's) position
+    private void PlaySfx(AudioClip clip)
+    {
+        if (clip == null) return;
+        Vector3 pos = (Camera.main != null) ? Camera.main.transform.position : transform.position;
+        AudioSource.PlayClipAtPoint(clip, pos, Mathf.Clamp01(sfxVolume));
     }
 }

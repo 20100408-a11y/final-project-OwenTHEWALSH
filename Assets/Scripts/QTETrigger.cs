@@ -1,18 +1,38 @@
 ﻿using System.Collections;
 using UnityEngine;
-
-// Add this using directive at the top of your file
-// (if StrikeManager is in a namespace, use that namespace)
+using TMPro;
 
 public class QTETrigger : MonoBehaviour
 {
     [SerializeField] private int triggerNumber = 1;
     [SerializeField] private GameObject qteTextGameObject;
-    [SerializeField] private float qteWindow = 2f;
     [SerializeField] private float postTriggerCooldown = 2f;
+
+    [Header("QTE Keys (choose 3)")]
+    [Tooltip("Three possible keys the QTE can require (defaults shown).")]
+    [SerializeField] private KeyCode[] possibleKeys = new KeyCode[3] { KeyCode.E, KeyCode.R, KeyCode.F };
+
+    [Header("Difficulty (0 = easy, 1 = hard)")]
+    [Tooltip("Minimum time allowed to react (hardest).")]
+    [SerializeField] private float minQTEWindow = 0.5f;
+    [Tooltip("Maximum time allowed to react (easiest).")]
+    [SerializeField] private float maxQTEWindow = 3f;
+    [Tooltip("Difficulty: 0 = easy (max window), 1 = hard (min window).")]
+    [Range(0f, 1f)]
+    [SerializeField] private float difficulty = 0.5f;
 
     [Header("Detection")]
     [SerializeField] private Camera targetCamera;
+
+    [Header("Audio (optional)")]
+    [Tooltip("Sound played when QTE begins.")]
+    [SerializeField] private AudioClip qteStartClip;
+    [Tooltip("Sound played on QTE success.")]
+    [SerializeField] private AudioClip qteSuccessClip;
+    [Tooltip("Sound played on QTE failure/timeout.")]
+    [SerializeField] private AudioClip qteFailClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float sfxVolume = 1f;
 
     private GameObject qteText;
     private float qteTimeRemaining = 0f;
@@ -24,13 +44,20 @@ public class QTETrigger : MonoBehaviour
     private bool playerInTrigger = false;
     private Player playerScript;
 
+    // Current key required for this QTE instance
+    private KeyCode currentRequiredKey = KeyCode.E;
+    private TextMeshProUGUI qteTextComponent;
+
     private void Awake()
     {
         qteText = qteTextGameObject;
         triggerCollider = GetComponent<Collider>();
 
         if (qteText != null)
+        {
             qteText.SetActive(false);
+            qteTextComponent = qteText.GetComponent<TextMeshProUGUI>();
+        }
 
         if (triggerCollider == null)
             Debug.LogWarning($"[QTETrigger {triggerNumber}] No Collider on trigger object.");
@@ -79,38 +106,57 @@ public class QTETrigger : MonoBehaviour
             }
         }
 
-        if (!isActive)
-            return;
-
-        qteTimeRemaining -= Time.deltaTime;
-
-        if (qteTimeRemaining <= 0f)
+        // Only accept the required key when this QTE is active
+        if (isActive)
         {
-            QTETimeout();
-            return;
-        }
+            qteTimeRemaining -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            QTESuccess();
+            if (qteTimeRemaining <= 0f)
+            {
+                QTETimeout();
+                return;
+            }
+
+            if (Input.GetKeyDown(currentRequiredKey))
+            {
+                QTESuccess();
+            }
         }
     }
 
     private void ActivateQTE()
     {
         isActive = true;
-        qteTimeRemaining = qteWindow;
+
+        // Clamp/validate possible keys
+        if (possibleKeys == null || possibleKeys.Length == 0)
+            currentRequiredKey = KeyCode.E;
+        else
+            currentRequiredKey = possibleKeys[Random.Range(0, possibleKeys.Length)];
+
+        // Compute window based on difficulty (higher difficulty => smaller window)
+        float clampedDifficulty = Mathf.Clamp01(difficulty);
+        qteTimeRemaining = Mathf.Lerp(maxQTEWindow, minQTEWindow, clampedDifficulty);
 
         if (qteText != null)
-            qteText.SetActive(true);
-
-        // Pause player movement during QTE
-        if (playerScript != null)
         {
-            playerScript.PauseMovement(qteWindow);
+            qteText.SetActive(true);
+            if (qteTextComponent != null)
+            {
+                qteTextComponent.text = $"Press [{currentRequiredKey}]";
+            }
         }
 
-        Debug.Log($"[QTETrigger {triggerNumber}] QTE active for {qteWindow} seconds. Press E!");
+        // Pause player movement during QTE for the actual window
+        if (playerScript != null)
+        {
+            playerScript.PauseMovement(qteTimeRemaining);
+        }
+
+        // Play start SFX if provided
+        PlaySfx(qteStartClip);
+
+        Debug.Log($"[QTETrigger {triggerNumber}] QTE active for {qteTimeRemaining:F2}s. Press {currentRequiredKey}!");
     }
 
     private void QTESuccess()
@@ -118,6 +164,9 @@ public class QTETrigger : MonoBehaviour
         isActive = false;
         if (qteText != null)
             qteText.SetActive(false);
+
+        // Play success SFX
+        PlaySfx(qteSuccessClip);
 
         // If player has strikes, successful QTE removes one strike.
         if (StrikeManager.Instance != null && StrikeManager.Instance.Strikes > 0)
@@ -138,6 +187,8 @@ public class QTETrigger : MonoBehaviour
 
         Debug.Log($"[QTETrigger {triggerNumber}] Starting {postTriggerCooldown}s cooldown before player can pass.");
         StartCooldown();
+
+        // Optionally, play a success visual effect here
     }
 
     private void QTETimeout()
@@ -145,6 +196,9 @@ public class QTETrigger : MonoBehaviour
         isActive = false;
         if (qteText != null)
             qteText.SetActive(false);
+
+        // Play failure SFX
+        PlaySfx(qteFailClip);
 
         // Resume player movement after timeout
         if (playerScript != null)
@@ -166,6 +220,8 @@ public class QTETrigger : MonoBehaviour
             Debug.Log($"[QTETrigger {triggerNumber}] Starting {postTriggerCooldown}s cooldown.");
             StartCooldown();
         }
+
+        // Optionally, play a failure visual cue here
     }
 
     private void StartCooldown()
@@ -188,5 +244,15 @@ public class QTETrigger : MonoBehaviour
         GameLoop gameLoop = FindObjectOfType<GameLoop>();
         if (gameLoop != null)
             gameLoop.TriggerGameOver(reason);
+    }
+
+    private void PlaySfx(AudioClip clip)
+    {
+        if (clip == null)
+            return;
+
+        // Play at main camera if available, otherwise at this object's position.
+        Vector3 pos = (Camera.main != null) ? Camera.main.transform.position : transform.position;
+        AudioSource.PlayClipAtPoint(clip, pos, Mathf.Clamp01(sfxVolume));
     }
 }

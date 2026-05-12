@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -47,6 +48,51 @@ public class Player : MonoBehaviour
     // Movement state tracking
     private bool isMovementPaused = false;
 
+    // Expose the paused state so other scripts (like Move) can respect it
+    public bool IsMovementPaused => isMovementPaused;
+
+    [Header("Idle Warning")]
+    [Tooltip("Text element used to show idle warning.")]
+    [SerializeField]
+    private TextMeshProUGUI idleWarningText;
+
+    [Tooltip("Time (s) of inactivity before showing a warning.")]
+    [SerializeField]
+    private float idleWarningDelay = 1.5f;
+
+    [Tooltip("Time (s) of inactivity that triggers the idle failure action.")]
+    [SerializeField]
+    private float idleFailTime = 3f;
+
+    [Tooltip("If true, adds a strike when idle fail occurs (requires StrikeManager).")]
+    [SerializeField]
+    private bool addStrikeOnIdleFail = true;
+
+    [Tooltip("If true, idle failure triggers an immediate Game Over instead of adding a strike.")]
+    [SerializeField]
+    private bool idleFailIsGameOver = false;
+
+    [Tooltip("Game Over reason text used when idleFailIsGameOver is true.")]
+    [SerializeField]
+    private string idleFailGameOverReason = "Player idle - game over";
+
+    [Tooltip("Ominous short warning message displayed before failure.")]
+    [SerializeField]
+    private string idleWarningMessage = "The shadows are stirring... move.";
+
+    [Tooltip("Ominous failure message shown when idle failure occurs.")]
+    [SerializeField]
+    private string idleFailMessage = "Silence closes in. You have been taken.";
+
+    private float lastActionTime;
+    private bool idleWarningVisible = false;
+    private bool idleFailed = false;
+
+    // New: control whether idle detection runs (can be disabled by PauseMovement)
+    private bool idleDetectionEnabled = true;
+    // New: support nested pauses
+    private int pauseCount = 0;
+
     private void Start()
     {
         if (targetCamera == null)
@@ -63,6 +109,10 @@ public class Player : MonoBehaviour
         {
             Debug.LogWarning("Player: No light assigned. Assign a Light child of the camera in the Inspector for best results.");
         }
+
+        lastActionTime = Time.time;
+        if (idleWarningText != null)
+            idleWarningText.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -79,6 +129,27 @@ public class Player : MonoBehaviour
 
             // Start smooth camera movement
             moveCoroutine = StartCoroutine(SmoothMove());
+            RegisterAction();
+        }
+
+        // Idle detection only when enabled
+        if (idleDetectionEnabled)
+        {
+            float idleDuration = Time.time - lastActionTime;
+
+            if (!idleWarningVisible && idleDuration >= idleWarningDelay && !idleFailed)
+            {
+                ShowIdleWarning(true);
+            }
+            else if (idleWarningVisible && idleDuration < idleWarningDelay)
+            {
+                ShowIdleWarning(false);
+            }
+
+            if (!idleFailed && idleDuration >= idleFailTime)
+            {
+                HandleIdleFail();
+            }
         }
     }
 
@@ -135,6 +206,7 @@ public class Player : MonoBehaviour
 
     /// <summary>
     /// Temporarily pauses player movement (for STOP triggers, etc.)
+    /// Also disables idle detection while paused.
     /// </summary>
     public void PauseMovement(float duration)
     {
@@ -143,9 +215,12 @@ public class Player : MonoBehaviour
 
     private IEnumerator PauseMovementCoroutine(float duration)
     {
+        // support nested pauses using a counter
+        pauseCount++;
         isMovementPaused = true;
-        
-        // Stop any ongoing movement
+        idleDetectionEnabled = false;
+
+        // Stop any ongoing movement immediately
         if (moveCoroutine != null)
         {
             StopCoroutine(moveCoroutine);
@@ -153,8 +228,19 @@ public class Player : MonoBehaviour
         }
 
         yield return new WaitForSeconds(duration);
-        
-        isMovementPaused = false;
+
+        pauseCount--;
+        if (pauseCount <= 0)
+        {
+            pauseCount = 0;
+            isMovementPaused = false;
+            idleDetectionEnabled = true;
+            // reset last action so the idle timer doesn't immediately fire on resume
+            lastActionTime = Time.time;
+            idleFailed = false;
+            if (idleWarningVisible)
+                ShowIdleWarning(false);
+        }
     }
 
     /// <summary>
@@ -162,7 +248,14 @@ public class Player : MonoBehaviour
     /// </summary>
     public void ResumeMovement()
     {
+        // immediate resume also clears any pause state for idle detection
+        pauseCount = 0;
         isMovementPaused = false;
+        idleDetectionEnabled = true;
+        lastActionTime = Time.time;
+        idleFailed = false;
+        if (idleWarningVisible)
+            ShowIdleWarning(false);
     }
 
     /// <summary>
@@ -182,5 +275,60 @@ public class Player : MonoBehaviour
     public Camera GetCamera()
     {
         return targetCamera;
+    }
+
+    // Helper: mark player activity (reset idle timers and hide warnings)
+    private void RegisterAction()
+    {
+        lastActionTime = Time.time;
+        idleFailed = false;
+        if (idleWarningVisible)
+            ShowIdleWarning(false);
+    }
+
+    private void ShowIdleWarning(bool show)
+    {
+        idleWarningVisible = show;
+        if (idleWarningText != null)
+        {
+            idleWarningText.text = show ? idleWarningMessage : "";
+            idleWarningText.gameObject.SetActive(show);
+        }
+    }
+
+    private void HandleIdleFail()
+    {
+        idleFailed = true;
+        // final message (reuses the same text box)
+        if (idleWarningText != null)
+        {
+            idleWarningText.text = idleFailMessage;
+            idleWarningText.gameObject.SetActive(true);
+        }
+
+        Debug.Log("Player: Idle timeout reached.");
+
+        if (idleFailIsGameOver)
+        {
+            GameLoop gameLoop = FindObjectOfType<GameLoop>();
+            if (gameLoop != null)
+            {
+                gameLoop.TriggerGameOver(idleFailGameOverReason);
+            }
+            else
+            {
+                Debug.LogWarning("Player: idleFailIsGameOver is true but no GameLoop found.");
+                // fallback to strikes if configured
+                if (addStrikeOnIdleFail && StrikeManager.Instance != null)
+                    StrikeManager.Instance.AddStrike();
+            }
+        }
+        else
+        {
+            if (addStrikeOnIdleFail && StrikeManager.Instance != null)
+            {
+                StrikeManager.Instance.AddStrike();
+            }
+        }
     }
 }

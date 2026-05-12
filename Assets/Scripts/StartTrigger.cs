@@ -30,6 +30,12 @@ public class StartTrigger : MonoBehaviour
     [SerializeField]
     private float introTextDisplayDuration = 3.0f;
 
+    [Header("Audio (optional)")]
+    [Tooltip("Sound played when intro starts.")]
+    [SerializeField] private AudioClip introStartClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float sfxVolume = 1f;
+
     private HIM himScript;
     private Player playerScript;
 
@@ -93,6 +99,9 @@ public class StartTrigger : MonoBehaviour
         hasTriggered = true;
         Debug.Log("StartTrigger: Camera entered trigger zone!");
 
+        // Play intro sound effect if assigned
+        PlaySfx(introStartClip);
+
         // Calculate total pause duration (text animation + display duration)
         float totalPauseDuration = (introductionDialogue.Split(' ').Length * wordDisplayDelay) + introTextDisplayDuration;
 
@@ -149,5 +158,12 @@ public class StartTrigger : MonoBehaviour
 
         yield return new WaitForSeconds(introTextDisplayDuration);
         textGameObject.SetActive(false);
+    }
+
+    private void PlaySfx(AudioClip clip)
+    {
+        if (clip == null) return;
+        Vector3 pos = (Camera.main != null) ? Camera.main.transform.position : transform.position;
+        AudioSource.PlayClipAtPoint(clip, pos, Mathf.Clamp01(sfxVolume));
     }
 }

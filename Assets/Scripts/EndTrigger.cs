@@ -13,6 +13,12 @@ public class EndTrigger : MonoBehaviour
     [SerializeField]
     private float minimumTriggerDuration = 1.0f;
 
+    [Header("Audio (optional)")]
+    [Tooltip("Sound played when end trigger is completed.")]
+    [SerializeField] private AudioClip endTriggerClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float sfxVolume = 1f;
+
     private bool playerInTrigger = false;
     private float triggerTimer = 0f;
     private bool hasTriggered = false;
@@ -89,6 +95,10 @@ public class EndTrigger : MonoBehaviour
     {
         hasTriggered = true;
         Debug.Log("EndTrigger: Minimum duration reached! Loading Title Screen...");
+
+        // Play end sound effect if assigned
+        PlaySfx(endTriggerClip);
+
         SceneManager.LoadScene("Title Screen");
     }
 
@@ -96,5 +106,12 @@ public class EndTrigger : MonoBehaviour
     {
         playerInTrigger = false;
         triggerTimer = 0f;
+    }
+
+    private void PlaySfx(AudioClip clip)
+    {
+        if (clip == null) return;
+        Vector3 pos = (Camera.main != null) ? Camera.main.transform.position : transform.position;
+        AudioSource.PlayClipAtPoint(clip, pos, Mathf.Clamp01(sfxVolume));
     }
 }
