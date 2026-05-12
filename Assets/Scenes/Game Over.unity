@@ -173,6 +173,7 @@ MonoBehaviour:
   fadeDuration: 0.5
   textDisplay: {fileID: 1688741921}
   wordDelay: 1
+  moveAwayDistance: 10
   sentenceToDisplay: Climb The Rope
 --- !u!135 &39472531
 SphereCollider:
@@ -1180,6 +1181,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1688741919}
   m_CullTransparentMesh: 1
+--- !u!1 &1733716155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1733716157}
+  - component: {fileID: 1733716156}
+  m_Layer: 0
+  m_Name: AUDIO
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1733716156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733716155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e72f75b80aadca4c98b3d8273f33f7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClip: {fileID: 8300000, guid: a7002cafc863e8d4ab9c9155cef78e37, type: 3}
+  volume: 1
+--- !u!4 &1733716157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733716155}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1752328596
 GameObject:
   m_ObjectHideFlags: 0
@@ -1673,3 +1720,4 @@ SceneRoots:
   - {fileID: 837376258}
   - {fileID: 2032171165}
   - {fileID: 1447089862}
+  - {fileID: 1733716157}

@@ -21,6 +21,14 @@ public class STOPTrigger : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float sfxVolume = 1f;
 
+    [Header("Spawn Settings")]
+    [Tooltip("If true, randomize this trigger's Y position on Awake between minSpawnY and maxSpawnY")]
+    [SerializeField] private bool randomizeYOnStart = true;
+    [Tooltip("Minimum Y for random spawn")]
+    [SerializeField] private float minSpawnY = -180f;
+    [Tooltip("Maximum Y for random spawn")]
+    [SerializeField] private float maxSpawnY = 100f;
+
     private GameObject stopTextBox;
     private Vector3 lastPlayerPosition;
     private float stopTimer = 0f;
@@ -31,6 +39,9 @@ public class STOPTrigger : MonoBehaviour
     private Collider triggerCollider;
     private bool playerInTrigger = false;
     private Player playerScript;
+
+    // Track last camera position to detect passing-through the trigger between frames
+    private Vector3 lastCameraPosition;
 
     private void Awake()
     {
@@ -44,6 +55,20 @@ public class STOPTrigger : MonoBehaviour
 
         if (targetCamera == null)
             targetCamera = Camera.main;
+
+        // Randomize Y (keep X/Z)
+        if (randomizeYOnStart)
+        {
+            Vector3 p = transform.position;
+            p.y = Random.Range(minSpawnY, maxSpawnY);
+            transform.position = p;
+        }
+
+        // Initialize last camera position
+        if (targetCamera != null)
+            lastCameraPosition = targetCamera.transform.position;
+        else
+            lastCameraPosition = Vector3.zero;
 
         // Find the Player script
         playerScript = FindObjectOfType<Player>();
@@ -65,10 +90,11 @@ public class STOPTrigger : MonoBehaviour
             return;
         }
 
-        // Detection like StartTrigger: check camera inside bounds
+        // Detection like StartTrigger: check camera inside bounds OR passed through between frames
         if (!hasBeenTriggered && triggerCollider != null && targetCamera != null)
         {
-            bool currentlyIn = triggerCollider.bounds.Contains(targetCamera.transform.position);
+            Vector3 camPos = targetCamera.transform.position;
+            bool currentlyIn = IsCameraInsideOrPassedThrough(camPos, lastCameraPosition, triggerCollider.bounds);
 
             if (currentlyIn)
             {
@@ -84,6 +110,8 @@ public class STOPTrigger : MonoBehaviour
             {
                 playerInTrigger = false;
             }
+
+            lastCameraPosition = camPos;
         }
 
         if (!isActive)
@@ -117,6 +145,32 @@ public class STOPTrigger : MonoBehaviour
         {
             EndSTOP();
         }
+    }
+
+    private bool IsCameraInsideOrPassedThrough(Vector3 currentCamPos, Vector3 previousCamPos, Bounds bounds)
+    {
+        // Direct containment
+        if (bounds.Contains(currentCamPos))
+            return true;
+
+        // If previous was inside (rare), treat as inside
+        if (bounds.Contains(previousCamPos))
+            return true;
+
+        // Segment intersection: create ray from previous to current and check bounds intersection within segment length
+        Vector3 segment = currentCamPos - previousCamPos;
+        float segLen = segment.magnitude;
+        if (segLen <= 0f)
+            return false;
+
+        Ray r = new Ray(previousCamPos, segment.normalized);
+        if (bounds.IntersectRay(r, out float distance))
+        {
+            if (distance <= segLen + Mathf.Epsilon)
+                return true;
+        }
+
+        return false;
     }
 
     private void ActivateSTOP()

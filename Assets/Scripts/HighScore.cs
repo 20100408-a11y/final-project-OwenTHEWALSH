@@ -4,7 +4,7 @@ using TMPro;
 /// <summary>
 /// Tracks and displays a high score. Two modes:
 /// - TitleScreen: loads/saves PlayerPrefs and shows the persistent high score.
-/// - Gameplay: runtime-only score that resets when the scene starts and does NOT write PlayerPrefs.
+/// - Gameplay: runtime-only score that resets when the scene starts and does NOT write PlayerPrefs (unless explicitly saved).
 /// </summary>
 public class HighScore : MonoBehaviour
 {
@@ -96,5 +96,28 @@ public class HighScore : MonoBehaviour
         PlayerPrefs.Save();
         UpdateText();
         Debug.Log("HighScore: Reset saved high score");
+    }
+
+    // Expose current runtime score for other systems (e.g. GameLoop)
+    public int GetCurrentScore()
+    {
+        return highScore;
+    }
+
+    // Save the given score into PlayerPrefs only if it's greater than the stored value.
+    // This is static so GameLoop or other systems can call it without needing a TitleScreen instance.
+    public static void SaveIfHigher(int score)
+    {
+        int existing = PlayerPrefs.GetInt(PlayerPrefsKey, 0);
+        if (score > existing)
+        {
+            PlayerPrefs.SetInt(PlayerPrefsKey, score);
+            PlayerPrefs.Save();
+            Debug.Log($"HighScore: New high score saved ({score} > {existing})");
+        }
+        else
+        {
+            Debug.Log($"HighScore: Not saving {score} because existing high score is {existing}");
+        }
     }
 }
