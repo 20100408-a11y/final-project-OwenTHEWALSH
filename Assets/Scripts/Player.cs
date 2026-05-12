@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -92,6 +93,7 @@ public class Player : MonoBehaviour
     private bool idleDetectionEnabled = true;
     // New: support nested pauses
     private int pauseCount = 0;
+    public int movesPerformed = 0; // Track total moves for analytics or game logic
 
     private void Start()
     {
@@ -120,6 +122,15 @@ public class Player : MonoBehaviour
         // Only process input if movement is not paused
         if (Input.GetKeyDown(KeyCode.Space) && !isMovementPaused)
         {
+            int currentMoveNumber = ++movesPerformed; // Increment move count and capture current move number for this action
+            if (currentMoveNumber == movesPerformed)
+            {
+                Debug.Log($"Player: Space pressed, initiating move #{currentMoveNumber}.");
+            }
+             else
+            {
+                AddStrike();
+            }
             if (targetCamera == null)
                 return;
 
@@ -130,6 +141,7 @@ public class Player : MonoBehaviour
             // Start smooth camera movement
             moveCoroutine = StartCoroutine(SmoothMove());
             RegisterAction();
+
         }
 
         // Idle detection only when enabled
@@ -151,6 +163,11 @@ public class Player : MonoBehaviour
                 HandleIdleFail();
             }
         }
+    }
+
+    private void AddStrike()
+    {
+        throw new NotImplementedException();
     }
 
     private IEnumerator SmoothMove()

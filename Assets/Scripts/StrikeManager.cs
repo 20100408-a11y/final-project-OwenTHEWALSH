@@ -20,6 +20,7 @@ public class StrikeManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI strikeDisplay;
 
     private int strikes = 0;
+    public bool giveStrikes = true; // Global flag to enable/disable strike accumulation (for testing/debugging)
 
     public int Strikes => strikes;
     public int MaxStrikes => maxStrikes;
